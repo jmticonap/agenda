@@ -13,7 +13,7 @@ const connect = (event) => {
         const chatPage = document.querySelector('#chat-page')
         chatPage.classList.remove('hide')
 
-        const socket = new SockJS('/chat-example')
+        const socket = new SockJS('/ws-agenda')
         stompClient = Stomp.over(socket)
         stompClient.connect({}, onConnected, onError)
     }
@@ -21,8 +21,8 @@ const connect = (event) => {
 }
 
 const onConnected = () => {
-    stompClient.subscribe('/topic/public', onMessageReceived)
-    stompClient.send("/app/chat.newUser",
+    stompClient.subscribe('/ws-topic/public', onMessageReceived)
+    stompClient.send("/ws-app/chat.newUser",
         {},
         JSON.stringify({sender: username, type: 'CONNECT'})
     )
@@ -47,7 +47,7 @@ const sendMessage = (event) => {
             type: 'CHAT',
             time: moment().calendar()
         }
-        stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage))
+        stompClient.send("/ws-app/chat.send", {}, JSON.stringify(chatMessage))
         messageInput.value = ''
     }
     event.preventDefault();

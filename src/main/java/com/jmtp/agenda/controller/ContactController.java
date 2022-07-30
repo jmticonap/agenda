@@ -17,6 +17,7 @@ public class ContactController {
     @Autowired
     private ContactRepository repoContact;
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/all")
     public List<Contact> findAll(){
         return repoContact.findAll();
